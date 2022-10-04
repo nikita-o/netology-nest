@@ -9,9 +9,8 @@ import { Model } from 'mongoose';
 export class BooksService {
   constructor(@InjectModel(Book.name) private bookModel: Model<BookDocument>) {}
 
-  create(data: CreateBookDto): Promise<Book> {
-    const book: BookDocument = new this.bookModel(data);
-    return book.save();
+  async create(data: CreateBookDto): Promise<void> {
+    await this.bookModel.create(data);
   }
 
   read(id: string): Promise<Book | null> {
