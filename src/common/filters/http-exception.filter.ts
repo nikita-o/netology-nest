@@ -16,8 +16,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status: number = exception.getStatus();
 
     await response.status(status).json({
-      exceptionMessage: exception.message,
-      data: request.body,
+      timestamp: new Date(),
+      status: 'fail',
+      data: exception.message,
+      code: exception.getStatus(),
     });
   }
 }
