@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { config } from './configs';
 import { BooksModule } from './modules/books/books.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { TestModule } from './modules/test/test.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     MongooseModule.forRoot('mongodb://localhost/nest'),
     // my modules:
     BooksModule,
+    TestModule,
     // globals:
     CommonModule,
   ],
