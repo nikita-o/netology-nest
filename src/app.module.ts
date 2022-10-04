@@ -5,12 +5,14 @@ import { config } from './configs';
 import { BooksModule } from './modules/books/books.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TestModule } from './modules/test/test.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ load: [config], isGlobal: true }),
     MongooseModule.forRoot('mongodb://localhost/nest'),
     // my modules:
+    AuthModule,
     BooksModule,
     TestModule,
     // globals:
