@@ -5,4 +5,7 @@ export const config = () => ({
   host: env.HOST || 'localhost',
   port: +env.PORT || 3000,
   prod: !!+env.PROD || false,
+  secure: {
+    jwtSecret: env.JWT_SECRET || 'secret',
+  },
 });
