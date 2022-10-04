@@ -21,7 +21,7 @@ export class ResponseInterceptor implements NestInterceptor {
           () =>
             new BadRequestException({
               status: 'fail',
-              data: error.data,
+              data: error,
             }),
         ),
       ),
