@@ -1,44 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { BookModel } from '../../models/book.model';
 import { CreateBookDto } from './dto/create-book.dto';
-import { randomUUID } from 'crypto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Book, BookDocument } from '../../schemas/book.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class BooksService {
-  private readonly books: BookModel[] = [];
+  constructor(@InjectModel(Book.name) private bookModel: Model<BookDocument>) {}
 
-  create(data: CreateBookDto): BookModel {
-    const book: BookModel = {
-      id: randomUUID(),
-      ...data,
-    };
-    this.books.push(book);
-    return book;
+  create(data: CreateBookDto): Promise<Book> {
+    const book: BookDocument = new this.bookModel(data);
+    return book.save();
   }
 
-  read(id: string): BookModel {
-    const idx: number = this.books.findIndex(
-      (book: BookModel) => book.id === id,
-    );
-    return this.books[idx];
+  read(id: string): Promise<Book | null> {
+    return this.bookModel.findById(id).exec();
   }
 
-  update(data: UpdateBookDto): BookModel {
-    const idx: number = this.books.findIndex(
-      (book: BookModel) => book.id === data.id,
-    );
-    this.books[idx] = {
-      ...data,
-      ...this.books[idx],
-    };
-    return this.books[idx];
+  async update(id: string, data: UpdateBookDto): Promise<void> {
+    await this.bookModel.findByIdAndUpdate(id, data);
   }
 
-  remove(id: string): void {
-    const idx: number = this.books.findIndex(
-      (book: BookModel) => book.id === id,
-    );
-    this.books.splice(idx, 1);
+  async remove(id: string): Promise<void> {
+    await this.bookModel.findByIdAndDelete(id);
   }
 }
