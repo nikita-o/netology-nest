@@ -1,10 +1,11 @@
 import {
+  BadRequestException,
   CallHandler,
   ExecutionContext,
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
@@ -15,6 +16,15 @@ export class ResponseInterceptor implements NestInterceptor {
         status: 'success',
         data,
       })),
+      catchError((error) =>
+        throwError(
+          () =>
+            new BadRequestException({
+              status: 'fail',
+              data: error.data,
+            }),
+        ),
+      ),
     );
   }
 }
