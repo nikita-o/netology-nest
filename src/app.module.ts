@@ -6,6 +6,7 @@ import { BooksModule } from './modules/books/books.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TestModule } from './modules/test/test.module';
 import { AuthModule } from './auth/auth.module';
+import { CommentModule } from './modules/comment/comment.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AuthModule } from './auth/auth.module';
     // my modules:
     AuthModule,
     BooksModule,
+    CommentModule,
     TestModule,
     // globals:
     CommonModule,
